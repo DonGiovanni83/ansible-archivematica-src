@@ -129,7 +129,9 @@
   args:
     executable: /bin/bash
   environment: "{{ archivematica_src_am_dashboard_environment }}"
-  when: archivematica_src_configure_dashboard|bool and dashboard_user.stdout == "" and dashboard_ss_url.stdout == ""
+  when:
+    - archivematica_src_configure_dashboard|bool
+    - (dashboard_user.stdout == "" and dashboard_ss_url.stdout == "") or ( dashboard_ss_url.stdout != archivematica_src_configure_ss_url)
 
 # Configure systemd-tmpfiles to not delete AM Prometheus data files.
 - name: "Set up systemd-tmpfiles configuration"
