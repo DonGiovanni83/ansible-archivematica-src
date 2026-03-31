@@ -358,6 +358,7 @@
   tags:
     - "amsrc-configure"
   when:
+    - archivematica_src_remote_pipeline is defined
     - archivematica_src_configure_ss|bool
 
 
