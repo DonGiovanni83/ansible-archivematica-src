@@ -6,6 +6,25 @@ archivematica_src_dir: "/opt/archivematica"
 # Shared directory for processing, etc
 archivematica_src_shareddir: "/var/archivematica/sharedDirectory"
 
+# Components config
+## SS
+archivematica_src_ss_external_ssl: false
+archivematica_src_ss_external_port: "8000"
+archivematica_src_ss_external_host: "localhost"
+archivematica_src_ss_external_url: "{%- if archivematica_src_ss_external_ssl -%}https{%- else -%}http{%- endif -%}://{{ archivematica_src_ss_external_host }}:{{ archivematica_src_ss_external_port }}"
+archivematica_src_ss_internal_port: "8001"
+archivematica_src_ss_internal_host: "localhost"
+archivematica_src_ss_internal_url: "http://{{ archivematica_src_ss_internal_host }}:{{ archivematica_src_ss_internal_port }}"
+
+## Dashboard
+archivematica_src_am_external_ssl: false
+archivematica_src_am_external_port: "80"
+archivematica_src_am_external_host: "localhost"
+archivematica_src_am_external_url: "{%- if archivematica_src_am_external_ssl -%}https{%- else -%}http{%- endif -%}://{{ archivematica_src_am_external_host }}:{{ archivematica_src_am_external_port }}"
+archivematica_src_am_internal_port: "8002"
+archivematica_src_am_internal_host: "localhost"
+archivematica_src_am_internal_url: "http://{{ archivematica_src_am_internal_host }}:{{ archivematica_src_am_internal_port }}"
+
 # Components to install
 archivematica_src_install_am: "yes"
 archivematica_src_install_ss: "yes"
@@ -131,13 +150,13 @@ archivematica_src_ss_log_maxbytes: "20971520"                 #  20 Mbytes
 
 # Use of UNIX sockets breaks AM API whitelisting that relis on REMOTE_ADDR. Using TCP sockets instead. See https://github.com/benoitc/gunicorn/issues/797 for more details.
 
-archivematica_src_am_dashboard_nginx_bind: "127.0.0.1:8002"
+archivematica_src_am_dashboard_nginx_bind: "{{ archivematica_src_am_internal_url }}"
 archivematica_src_am_dashboard_nginx_proxy_read_timeout: "172800s"
-archivematica_src_ss_nginx_bind: "127.0.0.1:8001"
+archivematica_src_ss_nginx_bind: "{{ archivematica_src_ss_internal_url }}"
 archivematica_src_ss_nginx_proxy_read_timeout: "172800s"
 
 # SSL settings
-archivematica_src_ssl: "false"
+archivematica_src_ssl: "{{ archivematica_src_ssl }}"
 # Include acmetool challenge location in dashboard nginx configuration (see https://github.com/artefactual-labs/ansible-acmetool for more details).
 archivematica_src_ssl_include_acme_chlg_loc: "false"
 # The following vars need to be defined in the playbook or host_vars:
@@ -181,7 +200,7 @@ archivematica_src_acceptance_tests_chromedriver_version: "2.29"
 # Fixity
 archivematica_src_fixity_virtualenv: "/usr/share/archivematica/virtualenvs/fixity"
 archivematica_src_fixity_version: "master"
-archivematica_src_fixity_ss_url: "http://localhost:8000"
+archivematica_src_fixity_ss_url: "{{ archivematica_src_ss_external_url }}"
 archivematica_src_fixity_ss_user: "test"
 archivematica_src_fixity_ss_apikey: "XXXX"
 #archivematica_src_fixity_report_url: "http://report"
@@ -201,11 +220,11 @@ archivematica_src_migrate_sqlite3_db_user: ""
 archivematica_src_configure_ss_user: "test"                  # SS superuser
 archivematica_src_configure_ss_password: "PleaseChangeMe!"   # SS superuser password
 archivematica_src_configure_ss_email: "test@example.com"     # SS superuser email address
-archivematica_src_configure_ss_url: "http://localhost:8000"  # SS url to register the pipeline
+archivematica_src_configure_ss_url: "{{ archivematica_src_ss_external_url }}"  # SS url to register the pipeline
 archivematica_src_configure_am_user: "test"                  # Dashboard admin
 archivematica_src_configure_am_password: "PleaseChangeMe!"   # Dashboard admin password
 archivematica_src_configure_am_email: "test@example.com"     # Dashboard admin password
-archivematica_src_configure_am_site_url: "127.0.0.1"         # Pipeline "Remote name" on SS. Base URL of the pipeline server for making API calls.
+archivematica_src_configure_am_site_url: "{{ archivematica_src_am_external_url }}"         # Pipeline "Remote name" on SS. Base URL of the pipeline server for making API calls.
 archivematica_src_configure_am_org_name: "test org"          # Dashboard admin Org name
 archivematica_src_configure_am_org_id: "test id"             # Dashboard admin Org id
 archivematica_src_configure_am_whitelist: '""'               # Dashboard API whitelist, IP address or hostnames separated by blank spaces and inside quotes
