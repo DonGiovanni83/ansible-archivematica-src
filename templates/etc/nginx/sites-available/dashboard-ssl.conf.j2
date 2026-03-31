@@ -32,7 +32,7 @@ server {
 
 server {
 
-  listen 443 ssl;
+  listen {{ archivematica_src_am_external_port }} ssl;
   server_name _;
 
   ssl_certificate  {{ archivematica_src_ssl_fullchain }};

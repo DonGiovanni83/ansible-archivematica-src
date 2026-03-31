@@ -8,7 +8,7 @@ upstream archivematica_dashboard_backend {
 
 server {
 
-  listen 80;
+  listen {{ archivematica_src_am_external_port }};
 
   # Adjust to taste
   client_max_body_size 256M;
