@@ -37,14 +37,25 @@
  
 # If pipeline_uuid exists, configure the space and locations
 - name: "Configure SS: Configure pipeline local filesystem space and locations"
+  vars:
+    __remote_pipeline_inventory_host: "{{ archivematica_src_remote_pipeline_inventory_host | default(archivematica_src_remote_pipeline) }}"
   block:
+
+    - name: "Configure SS remote pipeline: Validate remote pipeline host is in inventory"
+      assert:
+        that:
+          - __remote_pipeline_inventory_host in groups['dashboard']
+        fail_msg: >
+          The remote pipeline host '{{ __remote_pipeline_inventory_host }}' is not in the 'dashboard' inventory group.
+          Available hosts: {{ groups['dashboard'] | default([]) }}
+        success_msg: "Remote pipeline host '{{ __remote_pipeline_inventory_host }}' found in inventory."
 
     - name: "Configure SS remote pipeline: Add ssh key to pipeline server"
       authorized_key:
         user: "archivematica"
         state: "present"
         key: "{{ ssh_key.stdout }}"
-      delegate_to: "{{ archivematica_src_remote_pipeline | default(omit) }}"
+      delegate_to: "{{ __remote_pipeline_inventory_host | default(omit) }}"
       remote_user: "{{ ansible_ssh_user | default('artefactual') }}"
 
     - name: "Configure SS remote pipeline: Fetch and add pipeline hostname to .ssh/known_hosts"
