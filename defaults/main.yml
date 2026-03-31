@@ -308,6 +308,8 @@ archivematica_src_syslog_mcpserver_level: "DEBUG"
 #
 # The pipeline must be already registered in the SS!
 #archivematica_src_remote_pipeline: "archivematica.example.com"
+# Inventory hostname for delegate_to (defaults to archivematica_src_remote_pipeline)
+#archivematica_src_remote_pipeline_inventory_host: "archivematica.example.com"
 archivematica_src_remote_locations:
   - { location_purpose: "CP", location_path: "/var/archivematica/sharedDirectory", location_description: "Remote processing", location_default: "true" }
   - { location_purpose: "BL", location_path: "/var/archivematica/sharedDirectory/www/AIPsStore/transferBacklog", location_description: "Remote transfer backlog", location_default: "true" }
