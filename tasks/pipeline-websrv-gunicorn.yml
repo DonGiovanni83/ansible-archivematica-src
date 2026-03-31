@@ -42,20 +42,20 @@
     - "templates/{{ inventory_hostname }}/sites-available/dashboard-ssl.conf.j2"
     - "templates/sites-available/dashboard-ssl.conf.j2"
     - "etc/nginx/sites-available/dashboard-ssl.conf.j2"
-  when: "archivematica_src_ssl|bool"
+  when: "archivematica_src_am_external_ssl"
 
 - name: "Remove non-ssl config from sites-enabled"
   file:
     path: "/etc/nginx/sites-enabled/dashboard.conf"
     state: "absent"
-  when: "archivematica_src_ssl|bool"
+  when: "archivematica_src_am_external_ssl"
 
 - name: "Add ssl config to sites-enabled"
   file:
     src: "/etc/nginx/sites-available/dashboard-ssl.conf"
     dest: "/etc/nginx/sites-enabled/dashboard-ssl.conf"
     state: "link"
-  when: "archivematica_src_ssl|bool"
+  when: "archivematica_src_am_external_ssl"
 # SSL configuration tasks - end
 
 - name: "Set up audit log"

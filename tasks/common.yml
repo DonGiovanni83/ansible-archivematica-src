@@ -147,10 +147,16 @@
     - ansible_selinux is defined and ansible_selinux != False and ansible_selinux.status == 'enabled'
     - ansible_os_family in ['RedHat','Rocky']
 
-- name: "SELinux: Allow nginx to use ports 8000 and 8001"
+- name: "SELinux: Allow nginx to use AM & SS ports"
   become: "yes"
+  vars:
+    __am_httpd_ports:
+      - "{{ archivematica_src_am_external_port }}"
+      - "{{ archivematica_src_am_internal_port }}"
+      - "{{ archivematica_src_ss_external_port }}"
+      - "{{ archivematica_src_ss_internal_port }}"
   seport:
-    ports: "8000,8001"
+    ports: "{{ __am_httpd_ports }}"
     proto: "tcp"
     setype: "http_port_t"
     state: "present"
