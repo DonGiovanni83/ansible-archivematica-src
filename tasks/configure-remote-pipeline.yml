@@ -56,7 +56,7 @@
         state: "present"
         key: "{{ ssh_key.stdout }}"
       delegate_to: "{{ __remote_pipeline_inventory_host }}"
-      remote_user: "{{ ansible_ssh_user | default('artefactual') }}"
+      remote_user: "{{ ansible_ssh_user }}"
 
     - name: "Configure SS remote pipeline: Fetch and add pipeline hostname to .ssh/known_hosts"
       become: "yes"
