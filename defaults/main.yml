@@ -14,7 +14,6 @@ archivematica_src_ss_external_host: "localhost"
 archivematica_src_ss_external_url: "{%- if archivematica_src_ss_external_ssl -%}https{%- else -%}http{%- endif -%}://{{ archivematica_src_ss_external_host }}:{{ archivematica_src_ss_external_port }}"
 archivematica_src_ss_internal_port: "8001"
 archivematica_src_ss_internal_host: "localhost"
-archivematica_src_ss_internal_url: "http://{{ archivematica_src_ss_internal_host }}:{{ archivematica_src_ss_internal_port }}"
 
 ## Dashboard
 archivematica_src_am_external_ssl: false
@@ -23,7 +22,6 @@ archivematica_src_am_external_host: "localhost"
 archivematica_src_am_external_url: "{%- if archivematica_src_am_external_ssl -%}https{%- else -%}http{%- endif -%}://{{ archivematica_src_am_external_host }}:{{ archivematica_src_am_external_port }}"
 archivematica_src_am_internal_port: "8002"
 archivematica_src_am_internal_host: "localhost"
-archivematica_src_am_internal_url: "http://{{ archivematica_src_am_internal_host }}:{{ archivematica_src_am_internal_port }}"
 
 # Components to install
 archivematica_src_install_am: "yes"
@@ -150,9 +148,7 @@ archivematica_src_ss_log_maxbytes: "20971520"                 #  20 Mbytes
 
 # Use of UNIX sockets breaks AM API whitelisting that relis on REMOTE_ADDR. Using TCP sockets instead. See https://github.com/benoitc/gunicorn/issues/797 for more details.
 
-archivematica_src_am_dashboard_nginx_bind: "{{ archivematica_src_am_internal_url }}"
 archivematica_src_am_dashboard_nginx_proxy_read_timeout: "172800s"
-archivematica_src_ss_nginx_bind: "{{ archivematica_src_ss_internal_url }}"
 archivematica_src_ss_nginx_proxy_read_timeout: "172800s"
 
 # SSL settings

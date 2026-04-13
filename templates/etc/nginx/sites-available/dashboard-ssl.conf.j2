@@ -2,7 +2,7 @@
 
 upstream archivematica_dashboard_backend {
 
-    server {{ archivematica_src_am_dashboard_nginx_bind }};
+    server {{ archivematica_src_am_internal_host }}:{{ archivematica_src_am_internal_port }};
 
 }
 
