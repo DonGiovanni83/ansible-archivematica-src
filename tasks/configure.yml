@@ -297,10 +297,10 @@
         body:
           pipeline: ["/api/v2/pipeline/{{ pipeline_uuid.stdout }}/"]
           purpose: "{{ item.location_purpose }}"
-          relative_path: "{{ item.location_path | regex_replace('^\\/', '') }}"
+          relative_path: "{{ item.location_path | regex_replace('^\\/', '') | default(omit) }}"
           description: "{{ item.location_description }}"
           space: "/api/v2/space/{{ space_uuid.stdout }}/"
-          default: "{{ item.location_default }}"
+          default: "{{ item.location_default | default('false') }}"
         body_format: json
         status_code: 201
         method: POST
