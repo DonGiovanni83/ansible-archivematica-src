@@ -10,18 +10,18 @@ archivematica_src_shareddir: "/var/archivematica/sharedDirectory"
 ## SS
 archivematica_src_ss_external_ssl: false
 archivematica_src_ss_external_port: "8000"
-archivematica_src_ss_external_host: "localhost"
+archivematica_src_ss_external_host: "127.0.0.1"
 archivematica_src_ss_external_url: "{%- if archivematica_src_ss_external_ssl -%}https{%- else -%}http{%- endif -%}://{{ archivematica_src_ss_external_host }}:{{ archivematica_src_ss_external_port }}"
 archivematica_src_ss_internal_port: "8001"
-archivematica_src_ss_internal_host: "localhost"
+archivematica_src_ss_internal_host: "127.0.0.1"
 
 ## Dashboard
 archivematica_src_am_external_ssl: false
 archivematica_src_am_external_port: "80"
-archivematica_src_am_external_host: "localhost"
+archivematica_src_am_external_host: "127.0.0.1"
 archivematica_src_am_external_url: "{%- if archivematica_src_am_external_ssl -%}https{%- else -%}http{%- endif -%}://{{ archivematica_src_am_external_host }}:{{ archivematica_src_am_external_port }}"
 archivematica_src_am_internal_port: "8002"
-archivematica_src_am_internal_host: "localhost"
+archivematica_src_am_internal_host: "127.0.0.1"
 
 # Components to install
 archivematica_src_install_am: "yes"
@@ -69,7 +69,7 @@ archivematica_src_rpm_repositories:
     gpgcheck: 1
 
 # Database settings
-archivematica_src_am_db_host: "localhost"        # Archivematica database host
+archivematica_src_am_db_host: "127.0.0.1"        # Archivematica database host
 archivematica_src_am_db_name: "MCP"              # Archivematica database name
 archivematica_src_am_db_user: "archivematica"    # Archivematica database user
 archivematica_src_am_db_password: "demo"         # Archivematica database password
@@ -77,7 +77,7 @@ archivematica_src_am_db_encoding: "utf8mb4"      # Archivematica database encodi
 archivematica_src_am_db_collation: "utf8mb4_0900_ai_ci" # Archivematica database collation
 
 archivematica_src_ss_db_mysql_enabled: "true"    # Use MySQL SS database. Set as false for sqlite3
-archivematica_src_ss_db_host: "localhost"        # Archivematica Storage Service database host
+archivematica_src_ss_db_host: "127.0.0.1"        # Archivematica Storage Service database host
 archivematica_src_ss_db_name: "SS"               # Archivematica Storage Service database name
 archivematica_src_ss_db_user: "archivematica"    # Archivematica Storage Service database user
 archivematica_src_ss_db_password: "demo"         # Archivematica Storage Service database password
@@ -108,7 +108,7 @@ archivematica_src_am_wait_local_mysql: "true"    # MCPServer upstart service to 
 # The following variables can be used to disable the Clamav daemon socket check and force the TCP socket configuration. When the Clamav daemon is not running on the same server than the pipeline, these variables have to be set to configure the Clamav daemon in the MCPClient
 
 archivematica_src_mcpclient_clamav_use_tcp: "no"
-archivematica_src_mcpclient_clamav_tcp_ip: "localhost"
+archivematica_src_mcpclient_clamav_tcp_ip: "127.0.0.1"
 archivematica_src_mcpclient_clamav_tcp_port: "3310"
 
 #
@@ -256,7 +256,7 @@ archivematica_src_configure_am_whitelist: '""'               # Dashboard API whi
 #  Send logs to syslog
 #
 archivematica_src_syslog_enabled: "false"
-archivematica_src_syslog_server: "localhost"
+archivematica_src_syslog_server: "127.0.0.1"
 archivematica_src_syslog_port: "514"
 archivematica_src_syslog_storageservice_facility: "local0"
 archivematica_src_syslog_storageservice_level: "DEBUG"
