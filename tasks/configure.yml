@@ -205,38 +205,34 @@
     - archivematica_src_configure_dashboardsettings['rsync_target'].split('@')[0] != archivematica_src_configure_dashboardsettings['rsync_target']
 
 
-- name: "Create archivematica user in AtoM server"
-  user:
-    name: "{{ atom_dipupload_ssh_user | default('archivematica') }}"
-    group: "users"
-    system: True
-    home: "/home/{{ atom_dipupload_ssh_user | default('archivematica') }}"
-    createhome: True
-    shell: "/bin/bash"
-  delegate_to: "{{ archivematica_src_configure_dashboardsettings['url']|urlsplit('hostname') }}"
-  remote_user: "{{ archivematica_src_configure_atom_ssh_user | default('artefactual') }}"
-  when:
-    - archivematica_src_configure_dashboard|bool
-    - archivematica_src_configure_dashboardsettings is defined
+- name: "Configure AtoM server for archivematica"
+  block:
+    - name: "Create archivematica user in AtoM server"
+      user:
+        name: "{{ atom_dipupload_ssh_user | default('archivematica') }}"
+        group: "users"
+        system: True
+        home: "/home/{{ atom_dipupload_ssh_user | default('archivematica') }}"
+        createhome: True
+        shell: "/bin/bash"
+      delegate_to: "{{ archivematica_src_configure_dashboardsettings['url'] | urlsplit('hostname') | default('localhost') }}"
+      remote_user: "{{ archivematica_src_configure_atom_ssh_user | default('artefactual') }}"
 
-- name: "Ensure 0755 permission on /home/{{ atom_dipupload_ssh_user | default('archivematica') }} dir"
-  file:
-    path: "/home/{{ atom_dipupload_ssh_user | default('archivematica') }}"
-    state: directory
-    mode: '0755'
-  delegate_to: "{{ archivematica_src_configure_dashboardsettings['url']|urlsplit('hostname') }}"
-  remote_user: "{{ archivematica_src_configure_atom_ssh_user | default('artefactual') }}"
-  when:
-    - archivematica_src_configure_dashboard|bool
-    - archivematica_src_configure_dashboardsettings is defined
+    - name: "Ensure 0755 permission on /home/{{ atom_dipupload_ssh_user | default('archivematica') }} dir"
+      file:
+        path: "/home/{{ atom_dipupload_ssh_user | default('archivematica') }}"
+        state: directory
+        mode: '0755'
+      delegate_to: "{{ archivematica_src_configure_dashboardsettings['url'] | urlsplit('hostname') | default('localhost') }}"
+      remote_user: "{{ archivematica_src_configure_atom_ssh_user | default('artefactual') }}"
 
-- name: "Add ssh key to AtoM server"
-  authorized_key:
-    user: "{{ atom_dipupload_ssh_user | default('archivematica') }}"
-    state: "present"
-    key: "{{ ssh_key.stdout }}"
-  delegate_to: "{{ archivematica_src_configure_dashboardsettings['url']|urlsplit('hostname') }}"
-  remote_user: "{{ archivematica_src_configure_atom_ssh_user | default('artefactual') }}"
+    - name: "Add ssh key to AtoM server"
+      authorized_key:
+        user: "{{ atom_dipupload_ssh_user | default('archivematica') }}"
+        state: "present"
+        key: "{{ ssh_key.stdout }}"
+      delegate_to: "{{ archivematica_src_configure_dashboardsettings['url'] | urlsplit('hostname') | default('localhost') }}"
+      remote_user: "{{ archivematica_src_configure_atom_ssh_user | default('artefactual') }}"
   when:
     - archivematica_src_configure_dashboard|bool
     - archivematica_src_configure_dashboardsettings is defined
